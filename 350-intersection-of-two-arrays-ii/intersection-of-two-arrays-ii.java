@@ -1,39 +1,32 @@
 class Solution {
     public int[] intersect(int[] nums1, int[] nums2) {
         
-        Map<Integer, Integer> map1 = new TreeMap<>();
-        Map<Integer, Integer> map2 = new TreeMap<>();
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
 
-        for(Integer num : nums1){
-            map1.put(num , map1.getOrDefault(num, 0) + 1);
-        }
+        int size1 = nums1.length;
+        int size2 = nums2.length;
 
-        for(Integer num : nums2){
-            map2.put(num , map2.getOrDefault(num, 0) + 1);
-        }
+        int a=0;
+        int b=0;
 
-        Map<Integer,Integer> ans = new HashMap<>();
+        int i=0;
+        int[] ans = new int[size1];
 
-        for(Map.Entry<Integer,Integer> entry : map1.entrySet()){
-            if(map2.containsKey(entry.getKey())){
-                ans.put(entry.getKey(), Math.min(entry.getValue(), map2.get(entry.getKey())));
-            }    
-        }
-
-        ArrayList<Integer> result = new ArrayList<>();
-
-        for(Map.Entry<Integer,Integer> val : ans.entrySet()){
-            for(int i = 0; i < val.getValue(); i++){
-                result.add(val.getKey());
+        while(a<size1 && b<size2){
+            if(nums1[a] == nums2[b]){
+                ans[i] = nums1[a];
+                i++;
+                a++;
+                b++;
+            }
+            else if(nums1[a]<nums2[b]){
+                a++;
+            }
+            else{
+                b++;
             }
         }
-        
-        int[] answer = new int[result.size()];
-
-        for(int i = 0 ; i < answer.length; i++){
-            answer[i]=result.get(i);
-        }
-
-        return answer;
+        return Arrays.copyOf(ans,i);
     }
 }
